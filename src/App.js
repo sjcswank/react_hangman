@@ -17,7 +17,8 @@ export default class App extends Component {
       word: word,
       numWrongGuesses: 0,
       lettersGuessed: [],
-      lettersFound: lettersFound
+      lettersFound: lettersFound,
+      error: ""
     }
   }
 
@@ -67,13 +68,23 @@ export default class App extends Component {
 
 
   handleGuess = (letter) => {
+    let letters = this.state.lettersGuessed;
 
-    if (this.state.lettersGuessed.includes(letter)) {
-          console.log("test");
+    if (letters.includes(letter)) {
+      this.setState({
+        error: <div className="error">You have already guessed that letter!</div>
+      });
+    }
+      
+    else if (letter === "") {
+      this.setState({
+        error: <div className="error">Please enter a letter!</div>
+      });
+
     }
 
     else {
-      let letters = [letter, ...this.state.lettersGuessed];
+      letters = [letter, ...letters];
       this.setState({
         lettersGuessed: letters
       });
@@ -83,10 +94,11 @@ export default class App extends Component {
   render () {
     return (
       <div className="App">
-        <Form handleGuess={this.handleGuess} lettersGuessed={this.state.lettersGuessed} />
+        {this.state.error}
+        <Form handleGuess={this.handleGuess} />
         <div className="word">
         {console.log(this.state)}
-          {this.fillWord()}
+        {this.fillWord()}
         </div>
       </div>
     );
