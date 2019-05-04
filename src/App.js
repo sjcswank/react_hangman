@@ -3,6 +3,7 @@ import './App.css';
 import Form from './components/form';
 
 export default class App extends Component {
+
   constructor(props) {
     super(props);
     const allWords = ["word", "pipe", "dear", "deer", "fish", "coat"];
@@ -22,30 +23,24 @@ export default class App extends Component {
     }
   }
 
-//check num guesses
-//present correct letters in word
+  isLetterInWord = (letter) => {
+    if (this.state.word.indexOf(letter) !== -1) {
+      var indices = [];
 
-  // isLetterInWord = (letter) => {
-  //    this.setState({
-  //     lettersGuessed: [letter, ...this.state.lettersGuessed]
-  //   });
+      for(var i=0; i<this.state.word.length;i++) {
+        if (this.state.word[i] === letter) 
+          this.setState({
+            lettersFound: [[i, letter], ...this.state.lettersFound]
+        });
+      }
+    }
 
-  //   if (this.state.word.indexOf(letter)) {
-  //     var indices = [];
-  //     for(var i=0; i<this.state.word.length;i++) {
-  //       if (this.state.word[i] === letter) 
-  //         this.setState({
-  //           lettersFound: [[i, letter], ...this.state.lettersFound]
-  //       });
-  //     }
-  //   return true;
-  //   }
-
-  //   this.setState({
-  //     numWrongGuesses: this.state.numGuesses++
-  //   });
-  //   return false;
-  // }
+    else {
+      this.setState({
+        numWrongGuesses: this.state.numGuesses++
+      });
+    }
+  }
 
   fillWord = () => {
     let guessedWordLetters = [];
@@ -88,6 +83,7 @@ export default class App extends Component {
       this.setState({
         lettersGuessed: letters
       });
+      isLetterInWord(letter);
     }
   }
 
@@ -104,5 +100,6 @@ export default class App extends Component {
     );
   }
 
-}
 
+
+}
