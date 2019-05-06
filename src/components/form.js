@@ -15,15 +15,10 @@ export default class Form extends Component {
 	handleSubmit = (e) => {
 	    e.preventDefault();
 
-	    // if (this.props.lettersGuessed.includes(this.state.value)) {
-     //      console.log("test");
-    	// }
-	    // else {
 	    	this.props.handleGuess(this.state.value);
 	    	this.setState({
 	    		value: ""
 	    	});
-		// }
 	}
 
 

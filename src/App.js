@@ -6,60 +6,56 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
+
     const allWords = ["word", "pipe", "dear", "deer", "fish", "coat"];
     const word= allWords[Math.floor(Math.random()*allWords.length)];
-    var lettersFound = []
+    var lettersFound = [];
     for (var i=0; i<word.length;i++) {
-      lettersFound = [...lettersFound, [i, "_"]];
+      lettersFound = [...lettersFound, "_"];
     }
-    this.fillWord = this.fillWord.bind(this);
+    // this.fillWord = this.fillWord.bind(this);
 
     this.state = {
       word: word,
-      numWrongGuesses: 0,
+      numGuessesRemaining: 6,
       lettersGuessed: [],
       lettersFound: lettersFound,
-      error: ""
+      message: ""
     }
   }
 
   isLetterInWord = (letter) => {
-    if (this.state.word.indexOf(letter) !== -1) {
-      var indices = [];
+    console.log("test");
+    if (this.state.word.includes(letter)) {
+      var word = this.state.word;
 
-      for(var i=0; i<this.state.word.length;i++) {
-        if (this.state.word[i] === letter) 
-          this.setState({
-            lettersFound: [[i, letter], ...this.state.lettersFound]
-        });
+      var indices = [];
+      for(let i=0; i<word.length;i++) {
+          if (word[i] === letter) indices.push(i);
       }
+
+      word = word.split("");
+      const list = word.map((item, i) => {
+        if (indices.includes(i)) {
+          return letter;
+        } else {
+          return item;
+        }
+      });
+
+      console.log(list);
+
+      this.setState({
+        lettersFound: list
+      })
     }
 
     else {
       this.setState({
-        numWrongGuesses: this.state.numGuesses++
+        numGuessesRemaining: this.state.numGuessesRemaining--
       });
     }
   }
-
-  fillWord = () => {
-    let guessedWordLetters = [];
-    let lettersFoundSorted = this.state.lettersFound.sort(function (x, y) {
-      let a = x[0];
-      let b = y[0];
-
-      return a - b;
-    });
-   
-    for (var i = 0; i < this.state.word.length; i++){
-      guessedWordLetters[i] = lettersFoundSorted[i][1];
-    }
-
-    guessedWordLetters = guessedWordLetters.join(" ");
-
-    return <div>{guessedWordLetters}</div>;
-  }
-
 
 
   handleGuess = (letter) => {
@@ -67,13 +63,13 @@ export default class App extends Component {
 
     if (letters.includes(letter)) {
       this.setState({
-        error: <div className="error">You have already guessed that letter!</div>
+        message: <div className="message">You have already guessed {letter}!</div>
       });
     }
       
     else if (letter === "") {
       this.setState({
-        error: <div className="error">Please enter a letter!</div>
+        message: <div className="message">Please enter a letter!</div>
       });
 
     }
@@ -81,25 +77,47 @@ export default class App extends Component {
     else {
       letters = [letter, ...letters];
       this.setState({
-        lettersGuessed: letters
+        lettersGuessed: letters,
+        numGuessesRemaining: this.state.numGuessesRemaining--
       });
-      isLetterInWord(letter);
+      this.isLetterInWord(letter);
     }
   }
+
+  // displayImage = (i) => {
+  //   switch(i) {
+  //     case 6: 
+  //       return <img src="displayImageEmpty.png" />
+  //     case 5: 
+  //       return <img src="displayImageHead.png" />
+  //     case 4: 
+  //       return <img src="displayImageBody.png" />
+  //     case 3: 
+  //       return <img src="displayImageLeftArm.png" />
+  //     case 2: 
+  //       return <img src="displayImageRightArm.png" />
+  //     case 1: 
+  //       return <img src="displayImageLeftLeg.png" />
+  //     case 0: 
+  //       this.setState({
+  //         message: "You Lose!"
+  //       })
+  //       return <img src="displayImageRightLeg.png" />
+  //   }
+  // }
 
   render () {
     return (
       <div className="App">
-        {this.state.error}
-        <Form handleGuess={this.handleGuess} />
+        {this.state.message}
+        <Form handleGuess={this.handleGuess} word={this.state.word} />
         <div className="word">
         {console.log(this.state)}
-        {this.fillWord()}
+        <p>{this.state.lettersFound.join(" ")}</p>
+        <p>Guesses Remaining: {this.state.numGuessesRemaining}</p>
         </div>
       </div>
     );
   }
-
-
 
 }
