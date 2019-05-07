@@ -71,6 +71,7 @@ export default class App extends Component {
 
 
   handleGuess = (letter) => {
+    console.log(this.state.word);
     letter = letter.toUpperCase();
     var letters = this.state.lettersFound.concat(this.state.wrongLettersGuessed);
     if (this.state.numGuessesRemaining <= 0) {

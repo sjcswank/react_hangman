@@ -26,6 +26,7 @@ export default class Form extends Component {
 		return (
 			<form className="input" onSubmit={this.handleSubmit}>
 	          <input type="text" value={this.state.value} onChange={this.handleChange} />
+	          <button type="submit">Guess!</button>
 	        </form>
         )
 	}
