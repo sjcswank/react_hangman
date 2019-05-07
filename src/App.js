@@ -35,7 +35,7 @@ export default class App extends Component {
       }
 
       word = word.split("");
-      const list = word.map((item, i) => {
+      const list = this.state.lettersFound.map((item, i) => {
         if (indices.includes(i)) {
           return letter;
         } else {
@@ -52,6 +52,7 @@ export default class App extends Component {
 
     else {
       this.setState({
+        message: <div className="message">{letter} is not in the word!</div>,
         numGuessesRemaining: this.state.numGuessesRemaining--
       });
     }
