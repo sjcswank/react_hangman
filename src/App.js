@@ -26,7 +26,7 @@ export default class App extends Component {
       numGuessesRemaining: 6,
       wrongLettersGuessed: [],
       lettersFound: lettersFound,
-      message: ""
+      message: "Guess a Letter:"
     }
   }
 
@@ -39,8 +39,9 @@ export default class App extends Component {
           if (word[i] === letter) indices.push(i);
       }
 
-      word = word.split("");
-      const list = this.state.lettersFound.map((item, i) => {
+      var letters = this.state.lettersFound;
+
+      const list = letters.map((item, i) => {
         if (indices.includes(i)) {
           return letter;
         } else {
@@ -50,10 +51,24 @@ export default class App extends Component {
 
       this.setState({
         lettersFound: list
-      })
+      });
+
+      if (!list.includes("_")) {
+        this.setState({
+        message: <div className="message">You've Won!</div>
+        });
+      }
+      else {
+        this.setState({
+        message: <div className="message">You found {letter}!</div>
+        });
+      }
     }
 
     else {
+      this.setState ({
+        numGuessesRemaining: this.state.numGuessesRemaining - 1
+      });
       if (this.state.numGuessesRemaining <= 0) {
         var message = <div className="message">No Guesses Left. You Lose!</div>
       }
@@ -63,8 +78,7 @@ export default class App extends Component {
       let letters = [...this.state.wrongLettersGuessed, letter];
       this.setState({
         wrongLettersGuessed: letters,
-        message: message,
-        numGuessesRemaining: this.state.numGuessesRemaining - 1
+        message: message
       });
     }
   }

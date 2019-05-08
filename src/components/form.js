@@ -25,7 +25,7 @@ export default class Form extends Component {
 	render() {
 		return (
 			<form className="input" onSubmit={this.handleSubmit}>
-	          <input type="text" value={this.state.value} onChange={this.handleChange} />
+	          <input type="text" value={this.state.value} onChange={this.handleChange} autoFocus />
 	          <button type="submit">Guess!</button>
 	        </form>
         )
