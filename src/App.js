@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
 import Form from './components/form';
-// import noGuesses from '/images/noGuesses.png';
-// import oneGuess from '/images/oneGuesses.png';
-// import twoGuesses from '/images/twoGuesses.png';
-// import threeGuesses from '/images/threeGuesses.png';
-// import fourGuesses from '/images/fourGuesses.png';
-// import fiveGuesses from '/images/fiveGuesses.png';
-// import sixGuesses from '/images/sixGuesses.png';
 
 export default class App extends Component {
 
